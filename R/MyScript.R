@@ -13,5 +13,5 @@ add_numbers <- function(x, y) {
   if (!is.numeric(x) || !is.numeric(y)) {
     stop("Both inputs must be numeric")
   }
-  x + y
+  x + y + z
 }
