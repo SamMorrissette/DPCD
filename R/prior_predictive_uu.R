@@ -1,3 +1,13 @@
+#' Prior Predictive Check
+#'
+#' @inheritParams run_dpcd
+#' @param nsim Number of datasets to simulate from the prior predictive distribution.
+#' @param plot Logical indicating whether to plot the simulated datasets. See details for more information.
+#'
+#' @returns
+#' @export
+#'
+#' @examples
 prior_predictive_uu <- function(dis_matrix,
                                 p,
                                 trunc_value = 10,
@@ -123,9 +133,8 @@ prior_predictive_uu <- function(dis_matrix,
 
   if (plot == TRUE) {
     d_obs_vec <- c(d_obs[lower.tri(d_obs)])
-    print(d_obs_vec)
     p <- bayesplot::ppc_dens_overlay(d_obs_vec, d_pred) +
-      ggtitle("Prior predictive check")
+      ggplot2::ggtitle("Prior predictive check")
     print(p)
   }
 
