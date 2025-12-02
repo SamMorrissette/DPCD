@@ -35,7 +35,7 @@ post_predictive <- function(dis_matrix,
   x_samples <- full_samples[, startsWith(colnames(full_samples), "x")]
   sigma_samples <- sqrt(full_samples[, "sigma_sq"])
 
-  if (length(x_samples) == 0 || length(sigma_samples == 0)) {
+  if (length(x_samples) == 0 || length(sigma_samples) == 0) {
     stop("Variables `x` and `sigma_sq` must both be monitored in `mcmc_samples`.")
   }
 
