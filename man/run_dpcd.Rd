@@ -5,13 +5,15 @@
 \title{Run Dirichlet Process Clustering with Dissimilarities}
 \usage{
 run_dpcd(
+  model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
   dis_matrix,
   p,
   trunc_value = 10,
-  hyper_params,
-  init_params,
-  output_params,
+  hyper_params = NULL,
+  init_params = NULL,
+  output_params = c("x", "z", "pi", "mu", "Sigma", "sigma_sq"),
   scale = TRUE,
+  WAIC = TRUE,
   nchains = 1,
   niter = 10000,
   nburn = 0,
@@ -45,7 +47,7 @@ run_dpcd(
 Test
 }
 \description{
-This function fits an infinite mixture model to dissimilarity data using a Dirichlet Process prior. The model is constructed and MCMC sampling is performed using the \href{https://r-nimble.org/}{\code{nimble}} package.
+This function fits an infinite mixture model to dissimilarity data using a Dirichlet Process prior. The model is constructed and MCMC sampling is performed using the \href{https://r-nimble.org/}{\code{nimble}} package. Currently there are six different models available.
 }
 \details{
 Test

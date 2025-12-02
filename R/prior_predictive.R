@@ -58,6 +58,7 @@ prior_predictive <- function(model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
     empty_data,
     model_config$constants,
     model_config$init_params,
+    WAIC = FALSE,
     nchains = 1,
     niter = nsim,
     nburn = 0,
@@ -80,9 +81,9 @@ prior_predictive <- function(model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
   if (plot == TRUE) {
     d_obs_vec <- c(d_obs[lower.tri(d_obs)])
     p <- bayesplot::ppc_dens_overlay(d_obs_vec, d_pred) +
-      ggplot2::ggtitle(paste0("Prior predictive check for model", model_name))
+      ggplot2::ggtitle(paste("Prior predictive check for model", model_name))
     print(p)
   }
 
-  return(d_pred)
+  d_pred
 }

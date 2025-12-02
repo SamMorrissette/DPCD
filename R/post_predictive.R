@@ -78,5 +78,5 @@ post_predictive <- function(dis_matrix,
     print(p)
   }
 
-  return(d_pred)
+  d_pred
 }

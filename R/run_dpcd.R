@@ -1,6 +1,6 @@
 #' Run Dirichlet Process Clustering with Dissimilarities
 #'
-#' @description This function fits an infinite mixture model to dissimilarity data using a Dirichlet Process prior. The model is constructed and MCMC sampling is performed using the [`nimble`](https://r-nimble.org/) package. Currently there are six different models available.
+#' @description This function fits an infinite mixture model to dissimilarity data using a Dirichlet Process prior. The model is constructed and MCMC sampling is performed using the [`nimble`](https://r-nimble.org/) package. Currently, there are six different models available.
 #' @param dis_matrix A distance structure such as that returned by [stats::dist] or a full symmetric matrix containing the dissimilarities.
 #' @param p The dimension of the space in which the objects are embedded. Must be at least 2.
 #' @param hyper_params A named list of hyperparameter values. See details for more information.
