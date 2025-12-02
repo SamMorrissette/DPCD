@@ -1,9 +1,9 @@
-#' Run the Unequal Unrestricted Model
+#' MCMC Sampling for a Specified Nimble Model
 #'
 #' An internal function to run the unequal unrestricted (UU) model. This function is called by [run_dpcd()].
 #'
 #' @param data A symmetric dissimilarity matrix.
-#' @param hyper_params A named list of hyperparameter values.
+#' @param constants A named list of model constant values (including hyperparameters).
 #' @param init_params A named list of initial values for model parameters.
 #' @param monitors A character vector of model parameters to save in the output.
 #' @param nchains The number of MCMC chains to run.
@@ -16,17 +16,33 @@
 #' @import nimble
 #'
 #' @keywords internal
-run_uu <- function(data, hyper_params, init_params,
-                                 nchains, niter, nburn,
-                                 monitors,
-                                 ...) {
+model_mcmc <- function(model_name,
+                       data,
+                       constants,
+                       init_params,
+                       WAIC,
+                       nchains,
+                       niter,
+                       nburn,
+                       output_params,
+                       ...) {
 
+  model_code <- switch(
+    model_name,
+    "UU" = unequal_unrestricted_model,
+    "EU" = equal_unrestricted_model,
+    "UD" = unequal_diagonal_model,
+    "ED" = equal_diagonal_model,
+    "US" = unequal_spherical_model,
+    "ES" = equal_spherical_model,
+  )
   N <- p <- lambda <- Sigma <- n <- x <- NULL
-  nimble::nimbleMCMC(code = unequal_unrestricted_model,
-                     constants = hyper_params,
+  nimble::nimbleMCMC(code = model_code,
+                     constants = constants,
                      data = data,
                      inits = init_params,
-                     monitors = monitors,
+                     monitors = output_params,
+                     WAIC = WAIC,
                      nchains = nchains,
                      niter = niter,
                      nburnin = nburn,

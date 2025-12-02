@@ -1,10 +1,18 @@
-post_predictive_uu <- function(dis_matrix,
-                               p,
-                               mcmc_samples,
-                               nsim = 1000,
-                               scale = TRUE,
-                               plot = TRUE) {
-  # Insert validity check to make sure that all of the input variables are present...
+post_predictive <- function(dis_matrix,
+                            mcmc_samples,
+                            nsim = 1000,
+                            scale = TRUE,
+                            plot = TRUE) {
+
+  if (!inherits(mcmc_samples, "mcmc.list") & !inherits(mcmc_samples, "mcmc")) {
+    stop("`mcmc_samples` must be an object of class 'mcmc.list' or 'mcmc'.")
+  }
+
+  if (inherits(mcmc_samples, "mcmc.list")) {
+    full_samples <- do.call(rbind, mcmc_samples)
+  } else {
+    full_samples <- mcmc_samples
+  }
 
   if (!is.matrix(dis_matrix) & !inherits(dis_matrix, "dist")) {
     stop("`dis_matrix` must be a distance matrix.")
@@ -24,6 +32,13 @@ post_predictive_uu <- function(dis_matrix,
     stop("The diagonal elements of `dis_matrix` must be 0.")
   }
 
+  x_samples <- full_samples[, startsWith(colnames(full_samples), "x")]
+  sigma_samples <- sqrt(full_samples[, "sigma_sq"])
+
+  if (length(x_samples) == 0 || length(sigma_samples == 0)) {
+    stop("Variables `x` and `sigma_sq` must both be monitored in `mcmc_samples`.")
+  }
+
   if (scale == TRUE) {
     scalar <- 1 / max(d_obs)
     d_obs <- scalar * d_obs
@@ -31,8 +46,11 @@ post_predictive_uu <- function(dis_matrix,
 
   n <- nrow(d_obs)
   m <- n * (n-1) / 2
-  x_samples <- mcmc_samples[, startsWith(colnames(mcmc_samples), "x")]
-  sigma_samples <- sqrt(mcmc_samples[, "sigma_sq"])
+
+  x_cols <- colnames(x_samples)
+  dims <- sub(".*,(\\s*[0-9]+\\s*)\\]", "\\1", x_cols)
+  dims <- as.integer(dims)
+  latent_dim <- max(dims)
 
   d_pred <- matrix(data = NA, nrow = nsim, ncol = m)
 
@@ -46,7 +64,7 @@ post_predictive_uu <- function(dis_matrix,
   x_sub_samples <- x_samples[sample_idx, , drop = FALSE]
   sigma_sub_samples <- sigma_samples[sample_idx]
   for (i in 1:nsim) {
-    delta_vec <- c(dist(matrix(x_sub_samples[i, ], nrow = n, ncol = p)))
+    delta_vec <- c(dist(matrix(x_sub_samples[i, ], nrow = n, ncol = latent_dim)))
     d_pred[i, ] <- truncnorm::rtruncnorm(m,
                                          mean = delta_vec,
                                          sd = sigma_sub_samples[i],
@@ -56,7 +74,7 @@ post_predictive_uu <- function(dis_matrix,
   if (plot == TRUE) {
     d_obs_vec <- c(d_obs[lower.tri(d_obs)])
     p <- bayesplot::ppc_dens_overlay(d_obs_vec, d_pred) +
-      ggtitle("Posterior predictive check")
+      ggplot2::ggtitle("Posterior predictive check")
     print(p)
   }
 
