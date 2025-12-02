@@ -1,4 +1,4 @@
-plot_x <- function(mcmc_samples, align_matrix, show_clusters = TRUE) {
+plot_x <- function(mcmc_samples, align_matrix, show_clusters = TRUE, add_ellipses = TRUE) {
 
   if (!inherits(mcmc_samples, "mcmc.list") & !inherits(mcmc_samples, "mcmc")) {
     stop("`mcmc_samples` must be an object of class 'mcmc.list' or 'mcmc'.")
@@ -19,7 +19,7 @@ plot_x <- function(mcmc_samples, align_matrix, show_clusters = TRUE) {
   z_samples <- full_samples[, startsWith(colnames(full_samples), "z")]
 
   if (show_clusters & length(z_samples) == 0) {
-    stop("Variable `z` must be monitored in `mcmc_samples` when show_clusters is TRUE." )
+    stop("Variable `z` must be monitored in `mcmc_samples` when show_clusters = TRUE." )
   }
 
   x_cols <- colnames(x_samples)
@@ -59,6 +59,34 @@ plot_x <- function(mcmc_samples, align_matrix, show_clusters = TRUE) {
       pairs(final_mat, pch = 19)
     } else {
       stop("Latent dimension must be at least 2.")
+    }
+  }
+
+  if (add_ellipses == TRUE) {
+    if (latent_dim != 2) {
+      stop("add_ellipses = TRUE is only supported for p = 2.")
+    }
+    mu_samples <- full_samples[, startsWith(colnames(full_samples), "mu")]
+    Sigma_samples <- full_samples[, startsWith(colnames(full_samples), "Sigma")]
+
+    if (length(mu_samples) == 0 || length(Sigma_samples) == 0) {
+      stop("Variables `mu` and `Sigma` must be monitored in `mcmc_samples` when add_ellipses = TRUE." )
+    }
+
+    mu_cols <- colnames(mu_samples)
+    cluster_num <- as.integer(sub(".*\\[(\\s*[0-9]+\\s*),.*", "\\1", mu_cols))
+    num_clusters <- max(cluster_num)
+
+
+    mu_post_mean <- matrix(colMeans(mu_samples), nrow = latent_dim, ncol = num_clusters, byrow = TRUE)
+    Sigma_post_mean <- array(colMeans(Sigma_samples), dim = c(latent_dim, latent_dim, num_clusters))
+
+    for (k in 1:num_clusters) {
+      clust_mean <- mu_post_mean[, k]
+      clust_cov <- Sigma_post_mean[,, k]
+      clust_ellipse <- ellipse::ellipse(clust_cov, center = clust_mean)
+      lines(clust_ellipse, lty = 2)
+      points(clust_mean[1], clust_mean[2], pch = 8)
     }
   }
 }
