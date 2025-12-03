@@ -1,3 +1,11 @@
+#' Title
+#'
+#' @param mcmc_samples
+#'
+#' @returns
+#' @export
+#'
+#' @examples
 extract_clusters <- function(mcmc_samples) {
 
   if (!inherits(mcmc_samples, "mcmc.list") & !inherits(mcmc_samples, "mcmc")) {
