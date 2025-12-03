@@ -4,18 +4,22 @@
 #'
 #' @noRd
 
+#' @keywords internal
+#' @export
 makeDiagonalSigma <- nimble::nimbleFunction(
-  run = function(tau_vec = double(1)) {
+  run = function(tau_sq_vec = double(1)) {
     returnType(double(2))  # returns a p x p matrix
-    p <- length(tau_vec)
+    p <- length(tau_sq_vec)
     Sigma <- matrix(0, nrow = p, ncol = p)
     for(i in 1:p){
-      Sigma[i,i] <- tau_vec[i]
+      Sigma[i,i] <- tau_sq_vec[i]
     }
     return(Sigma)
   }
 )
 
+#' @keywords internal
+#' @export
 makeSphericalSigma <- nimble::nimbleFunction(
   run = function(tau_sq = double(0), p = integer(0)) {
     returnType(double(2))  # returns a p x p matrix

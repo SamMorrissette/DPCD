@@ -11,7 +11,7 @@ run_dpcd(
   trunc_value = 10,
   hyper_params = NULL,
   init_params = NULL,
-  output_params = c("x", "z", "pi", "mu", "Sigma", "sigma_sq"),
+  output_params = c("x", "z", "pi", "mu", "Sigma", "sigma_sq", "beta"),
   scale = TRUE,
   WAIC = TRUE,
   nchains = 1,
@@ -47,7 +47,7 @@ run_dpcd(
 Test
 }
 \description{
-This function fits an infinite mixture model to dissimilarity data using a Dirichlet Process prior. The model is constructed and MCMC sampling is performed using the \href{https://r-nimble.org/}{\code{nimble}} package. Currently there are six different models available.
+This function fits an infinite mixture model to dissimilarity data using a Dirichlet Process prior. The model is constructed and MCMC sampling is performed using the \href{https://r-nimble.org/}{\code{nimble}} package. Currently, there are six different models available.
 }
 \details{
 Test
