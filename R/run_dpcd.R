@@ -30,7 +30,7 @@ run_dpcd <- function(model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
                      trunc_value = 10,
                      hyper_params = NULL,
                      init_params = NULL,
-                     output_params = c("x", "z", "pi", "mu", "Sigma", "sigma_sq"),
+                     output_params = c("x", "z", "pi", "mu", "Sigma", "sigma_sq", "beta"),
                      scale = TRUE,
                      WAIC = TRUE,
                      nchains = 1, niter = 10000, nburn = 0, ...) {

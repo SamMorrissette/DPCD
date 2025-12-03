@@ -90,9 +90,9 @@ unequal_diagonal_model <- nimble::nimbleCode({
 
   for (k in 1:N) {
     for (q in 1:p) {
-      tau_vec[q, k] ~ dinvgamma(alpha_d, beta_d)
+      tau_sq_vec[q, k] ~ dinvgamma(alpha_tau, beta_tau)
     }
-    Sigma[1:p,1:p,k] <- makeDiagonalSigma(tau_vec[1:p, k])
+    Sigma[1:p,1:p,k] <- makeDiagonalSigma(tau_sq_vec[1:p, k])
     Sigma_mu[1:p,1:p,k] <- (1/lambda) * Sigma[1:p,1:p,k]
     mu[k,1:p] ~ dmnorm(mu_0[1:p], cov = Sigma_mu[1:p,1:p,k])
   }
@@ -119,10 +119,10 @@ equal_diagonal_model <- nimble::nimbleCode({
   pi[1:N] <- stick_breaking(beta[1:(N-1)])
 
   for (q in 1:p) {
-    tau_vec[q] ~ dinvgamma(alpha_d, beta_d)
+    tau_sq_vec[q] ~ dinvgamma(alpha_tau, beta_tau)
   }
 
-  Sigma[1:p,1:p] <- makeDiagonalSigma(tau_vec[1:p])
+  Sigma[1:p,1:p] <- makeDiagonalSigma(tau_sq_vec[1:p])
   Sigma_mu[1:p,1:p] <- (1/lambda) * Sigma[1:p,1:p]
   for (k in 1:N) {
     mu[k,1:p] ~ dmnorm(mu_0[1:p], cov = Sigma_mu[1:p,1:p])

@@ -25,10 +25,18 @@ configure_model_common <- function(d_obs,
                                    model_inits,
                                    model_inits_override) {
   # Hyperparameters
+  d_W <- 0.05
+  d_B <- 0.3
+  e_sigma_sq <- 0.02^2
+  v_sigma_sq <- 0.01
+
+  a_0 <- (e_sigma_sq^2 + (2*v_sigma_sq)) / v_sigma_sq
+  b_0 <- e_sigma_sq * (a_0 - 1)
+  lambda <- d_W^2 / d_B^2
   common_hyper_params <- list(alpha_0 = 1,
-                       a_0 = 1,
-                       b_0 = 1,
-                       lambda = 1,
+                       a_0 = a_0,
+                       b_0 = b_0,
+                       lambda = lambda,
                        mu_0 = rep(0, p))
 
   default_hyper_params <- modifyList(common_hyper_params, model_hyper_params)
@@ -86,7 +94,8 @@ configure_model_common <- function(d_obs,
 
 
 configure_uu <- function(d_obs, p, trunc_value, user_hyper_params, user_inits) {
-  model_hyper_params <- list("Psi_0" = diag(p),
+  d_W <- 0.05
+  model_hyper_params <- list("Psi_0" = (d_W^2 / 2*p) * diag(p),
                              "nu_0" = p + 2)
 
   model_inits <-  list(Sigma = array(diag(p), dim = c(p,p,trunc_value)))
@@ -97,7 +106,8 @@ configure_uu <- function(d_obs, p, trunc_value, user_hyper_params, user_inits) {
 }
 
 configure_eu <- function(d_obs, p, trunc_value, user_hyper_params, user_inits) {
-  model_hyper_params <- list("Psi_0" = diag(p),
+  d_W <- 0.05
+  model_hyper_params <- list("Psi_0" = (d_W^2 / 2*p) * diag(p),
                              "nu_0" = p + 2)
 
   model_inits <-  list(Sigma = array(diag(p), dim = c(p,p)))
@@ -108,10 +118,16 @@ configure_eu <- function(d_obs, p, trunc_value, user_hyper_params, user_inits) {
 }
 
 configure_ud <- function(d_obs, p, trunc_value, user_hyper_params, user_inits) {
-  model_hyper_params <- list("alpha_d" = 1,
-                             "beta_d" = 1)
+  d_W <- 0.05
+  v_W <- 0.1
 
-  model_inits <-  list(tau_vec = matrix(1, nrow = p, ncol = trunc_value))
+  alpha_tau <- ((d_W^2)^2 * (p-2) + (2*p*v_W)) / ((p * v_W) - (2 * (d_W^2)^2))
+  beta_tau <- (d_W^2 * (alpha_tau - 1)) / (2 * p)
+
+  model_hyper_params <- list("alpha_tau" = alpha_tau,
+                             "beta_tau" = beta_tau)
+
+  model_inits <-  list(tau_sq_vec = matrix(1, nrow = p, ncol = trunc_value))
 
   configure_model_common(d_obs, p, trunc_value,
                        user_hyper_params, user_inits,
@@ -119,10 +135,16 @@ configure_ud <- function(d_obs, p, trunc_value, user_hyper_params, user_inits) {
 }
 
 configure_ed <- function(d_obs, p, trunc_value, user_hyper_params, user_inits) {
-  model_hyper_params <- list("alpha_d" = 1,
-                             "beta_d" = 1)
+  d_W <- 0.05
+  v_W <- 0.1
 
-  model_inits <-  list(tau_vec = rep(1, p))
+  alpha_tau <- ((d_W^2)^2 * (p-2) + (2*p*v_W)) / ((p * v_W) - (2 * (d_W^2)^2))
+  beta_tau <- (d_W^2 * (alpha_tau - 1)) / (2 * p)
+
+  model_hyper_params <- list("alpha_tau" = alpha_tau,
+                             "beta_tau" = beta_tau)
+
+  model_inits <-  list(tau_sq_vec = rep(1, p))
 
   configure_model_common(d_obs, p, trunc_value,
                        user_hyper_params, user_inits,
@@ -130,8 +152,14 @@ configure_ed <- function(d_obs, p, trunc_value, user_hyper_params, user_inits) {
 }
 
 configure_us <- function(d_obs, p, trunc_value, user_hyper_params, user_inits) {
-  model_hyper_params <- list("alpha_tau" = 1,
-                             "beta_tau" = 1)
+  d_W <- 0.05
+  v_W <- 0.1
+
+  alpha_tau <- ((d_W^2)^2 * (p-2) + (2*p*v_W)) / ((p * v_W) - (2 * (d_W^2)^2))
+  beta_tau <- (d_W^2 * (alpha_tau - 1)) / (2 * p)
+
+  model_hyper_params <- list("alpha_tau" = alpha_tau,
+                             "beta_tau" = beta_tau)
 
   model_inits <-  list(tau_sq = rep(1, trunc_value))
 
@@ -140,8 +168,14 @@ configure_us <- function(d_obs, p, trunc_value, user_hyper_params, user_inits) {
                        model_hyper_params, model_inits)
 }
 configure_es <- function(d_obs, p, trunc_value, user_hyper_params, user_inits) {
-  model_hyper_params <- list("alpha_tau" = 1,
-                             "beta_tau" = 1)
+  d_W <- 0.05
+  v_W <- 0.1
+
+  alpha_tau <- ((d_W^2)^2 * (p-2) + (2*p*v_W)) / ((p * v_W) - (2 * (d_W^2)^2))
+  beta_tau <- (d_W^2 * (alpha_tau - 1)) / (2 * p)
+
+  model_hyper_params <- list("alpha_tau" = alpha_tau,
+                             "beta_tau" = beta_tau)
 
   model_inits <-  list(tau_sq = 1)
 
