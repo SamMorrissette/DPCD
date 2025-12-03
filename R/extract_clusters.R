@@ -6,6 +6,8 @@
 #' @export
 #'
 #' @examples
+#' @importFrom mcclust comp.psm maxpear
+
 extract_clusters <- function(mcmc_samples) {
 
   if (!inherits(mcmc_samples, "mcmc.list") & !inherits(mcmc_samples, "mcmc")) {
