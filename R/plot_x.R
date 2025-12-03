@@ -1,4 +1,4 @@
-plot_x <- function(mcmc_samples, align_matrix, show_clusters = TRUE, add_ellipses = TRUE) {
+plot_x <- function(mcmc_samples, align_matrix, show_clusters = TRUE, add_ellipses = FALSE) {
 
   if (!inherits(mcmc_samples, "mcmc.list") & !inherits(mcmc_samples, "mcmc")) {
     stop("`mcmc_samples` must be an object of class 'mcmc.list' or 'mcmc'.")
