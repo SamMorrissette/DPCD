@@ -1,13 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# DPCD
+# Dirichlet Process Clustering with Dissimilarities
 
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-DPCD implements a Bayesian hierarchical model for clustering
+The DPCD package implements a Bayesian hierarchical model for clustering
 dissimilarity data. The two main objectives of DPCD are to 1. Find a
 configuration of the objects such that the distance between them
 approximate the input dissimilarities, accounting for measurement error,
