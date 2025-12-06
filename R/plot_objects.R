@@ -5,10 +5,11 @@
 #' @param mcmc_samples An object of class `mcmc` or `mcmc.list` containing posterior samples from a DPCD model fit using [run_dpcd()].
 #' @param target_matrix A matrix used as the target for aligning the posterior latent coordinates (`x`) via a Procrustes transformation.
 #' @param show_clusters Logical argument indicating whether to colour points by their cluster membership. If `TRUE`, then `z` must be monitored in `mcmc_samples`.
-#'
+#' @param ... Additional arguments to be passed to `plot()` (2 dimensions) or `pairs()` (higher dimensions).
 #' @details Since the latent coordinates are non-identifiable due to invariance of Euclidean distances to rotation, reflection, and translation, this function first aligns the posterior samples of `x` to a specified target matrix using a Procrustes transformation. Then, it computes the posterior mean of the aligned latent coordinates and generates a plot. If `show_clusters` is set to `TRUE`, points are coloured according to their cluster memberships, which is estimated through maximizing the posterior expected adjusted Rand index (Fritsch and Ickstadt, 2009).
 #'
 #' @references Fritsch, Arno & Ickstadt, Katja. (2009). An Improved Criterion for Clustering Based on the Posterior Similarity Matrix. Bayesian Analysis. 4. 10.1214/09-BA414.
+#' @returns A scatter plot (for 2-dimensional latent space) or pairs plot (for higher dimensions) of the object configuration.
 #' @examples
 #' \dontrun{
 #' x <- matrix(rnorm(10*2), ncol = 2)
@@ -20,7 +21,7 @@
 #' @importFrom mcclust comp.psm maxpear
 #' @importFrom graphics pairs
 #' @export
-plot_x <- function(mcmc_samples, target_matrix, show_clusters = TRUE) {
+plot_objects <- function(mcmc_samples, target_matrix, show_clusters = TRUE, ...) {
 
   if (!inherits(mcmc_samples, "mcmc.list") & !inherits(mcmc_samples, "mcmc")) {
     stop("`mcmc_samples` must be an object of class 'mcmc.list' or 'mcmc'.")
@@ -61,14 +62,15 @@ plot_x <- function(mcmc_samples, target_matrix, show_clusters = TRUE) {
     x_transformed[i,] <- c(procrustes(target_matrix, x_mat))
   }
   final_mat <- matrix(colMeans(x_transformed), ncol = latent_dim, byrow = FALSE)
+  colnames(final_mat) <- paste0("Dim", 1:latent_dim)
 
   if (show_clusters == TRUE) {
     psm <- mcclust::comp.psm(z_samples)
     cluster_labels <- mcclust::maxpear(psm)
     if (latent_dim == 2) {
-      plot(final_mat, col = cluster_labels$cl, pch = 19)
+      plot(final_mat, col = cluster_labels$cl, pch = 19, ...)
     } else if (latent_dim > 2) {
-      pairs(final_mat, col = cluster_labels$cl, pch = 19)
+      pairs(final_mat, col = cluster_labels$cl, pch = 19, ...)
     } else {
       stop("Latent dimension must be at least 2.")
     }
@@ -76,9 +78,9 @@ plot_x <- function(mcmc_samples, target_matrix, show_clusters = TRUE) {
 
   if (show_clusters == FALSE) {
     if (latent_dim == 2) {
-      plot(final_mat, pch = 19)
+      plot(final_mat, pch = 19, ...)
     } else if (latent_dim > 2) {
-      pairs(final_mat, pch = 19)
+      pairs(final_mat, pch = 19, ...)
     } else {
       stop("Latent dimension must be at least 2.")
     }

@@ -17,6 +17,9 @@ A p x p spherical covariance matrix.
 \description{
 A nimbleFunction that returns a diagonal matrix with all diagonal entries equal to tau_sq. This function is not intended to be called by users of the package directly.
 }
+\examples{
+makeSphericalSigma(tau_sq = 0.1, p = 3)
+}
 \seealso{
 \code{\link[nimble]{nimbleFunction}} for information on nimbleFunctions.
 }

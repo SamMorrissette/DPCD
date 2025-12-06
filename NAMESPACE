@@ -3,7 +3,7 @@
 export(extract_clusters)
 export(makeDiagonalSigma)
 export(makeSphericalSigma)
-export(plot_x)
+export(plot_objects)
 export(post_predictive)
 export(prior_predictive)
 export(procrustes)

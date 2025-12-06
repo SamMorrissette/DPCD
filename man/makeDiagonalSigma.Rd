@@ -15,6 +15,9 @@ A p x p spherical covariance matrix.
 \description{
 A nimbleFunction that returns a diagonal matrix with diagonal entries equal to tau_sq_vec. This function is not intended to be called by users of the package directly.
 }
+\examples{
+makeDiagonalSigma(tau_sq_vec = c(1, 2, 3))
+}
 \seealso{
 \code{\link[nimble]{nimbleFunction}} for information on nimbleFunctions.
 }

@@ -4,8 +4,10 @@
 #'
 #' @param tau_sq The variance parameter for the spherical covariance matrix.
 #' @param p The dimension of the covariance matrix.
-#' @return A p x p spherical covariance matrix.
+#' @returns A p x p spherical covariance matrix.
 #' @keywords internal
+#' @examples
+#' makeSphericalSigma(tau_sq = 0.1, p = 3)
 #' @seealso \code{\link[nimble]{nimbleFunction}} for information on nimbleFunctions.
 #' @export
 makeSphericalSigma <- nimble::nimbleFunction(
@@ -24,8 +26,10 @@ makeSphericalSigma <- nimble::nimbleFunction(
 #' A nimbleFunction that returns a diagonal matrix with diagonal entries equal to tau_sq_vec. This function is not intended to be called by users of the package directly.
 #'
 #' @param tau_sq_vec A vector of length `p` containing variance parameters for the covariance matrix.
-#' @return A p x p spherical covariance matrix.
+#' @returns A p x p spherical covariance matrix.
 #' @keywords internal
+#' @examples
+#' makeDiagonalSigma(tau_sq_vec = c(1, 2, 3))
 #' @seealso \code{\link[nimble]{nimbleFunction}} for information on nimbleFunctions.
 #' @export
 #'

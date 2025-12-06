@@ -9,7 +9,7 @@
 #'
 #' `X` and `Y` should be numeric matrices of the same dimension.
 #'
-#' @return The transformed version of Y aligned to X.
+#' @returns The transformed version of Y aligned to X.
 #'
 #' @examples
 #' X <- matrix(rnorm(20), ncol = 2)
