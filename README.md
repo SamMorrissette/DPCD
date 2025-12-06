@@ -28,7 +28,6 @@ specified DPCD model to dissimilarity data. Here’s a basic example:
 
 ``` r
 library(DPCD)
-#> Warning: package 'ggplot2' was built under R version 4.5.2
 
 # Simulate data and calculate distances
 set.seed(123)
@@ -43,7 +42,7 @@ fit <- run_dpcd(dis_mat, model = "ES", p = 2, niter = 50000, nburn = 10000)
 
 The posterior samples can be accessed via the `samples` attribute of the
 returned object. You can use the `extract_clusters()` function to obtain
-cluster assignments from the MCMC samples:
+a cluster assignment for each observation:
 
 ``` r
 clusters <- extract_clusters(fit$samples)
@@ -67,14 +66,12 @@ ppc <- post_predictive(dis_mat, fit$samples)
 The latent object configuration can be plotted using the
 `plot_objects()` function. Since the latent coordinates of the objects
 are non-identifiable, a target matrix must be provided to which the
-posterior draws of the configuration are aligned.
+posterior draws of the object coordinates are aligned.
 
 ``` r
 target_matrix <- cmdscale(dis_mat, k = 2)
 plot_objects(fit$samples, target_matrix = target_matrix, show_clusters = TRUE,
-             main = "DPCD Estimated Configuration",
-             xlab = "Dimension 1",
-             ylab = "Dimension 2")
+             main = "DPCD Estimated Configuration")
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
