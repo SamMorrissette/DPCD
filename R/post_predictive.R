@@ -1,3 +1,36 @@
+#' Posterior Predictive Check
+#'
+#' This function simulates dissimilarities from the posterior predictive distribution of a specified DPCD model and optionally plots the density of the simulated dissimilarities against the observed dissimilarities.
+#'
+#' @param mcmc_samples An object of class `mcmc` or `mcmc.list` containing posterior samples from a DPCD model fit using [run_dpcd()]. Both the latent positions `x` and the error variance `sigma_sq` must be monitored in `mcmc_samples`.
+#' @param nsim Number of datasets to simulate from the posterior predictive distribution.
+#' @inheritParams prior_predictive
+#' @details A posterior predictive check is used to assess if datasets drawn from the posterior predictive distribution are consistent with the observed data. Posterior predictive checks differ from prior predictive checks in that they incorporate information from the observed data. If the model fits the data well, the observed dissimilarities should look similar to dissimilarities simulated from the posterior predictive distribution.
+#'
+#' If `plot = TRUE`, a plot is created to compare the density of the observed dissimilarities to the densities of the dissimilarities simulated from the posterior predictive distribution using `bayesplot::ppc_dens_overlay()`.
+#'
+#' See [run_dpcd()] for details on the DPCD models and hyperparameters.
+#' @seealso [run_dpcd()]
+#' @references
+#' Gabry, J., Simpson, D., Vehtari, A., Betancourt, M., & Gelman, A. (2019).
+#' Visualization in Bayesian workflow. Journal of the Royal Statistical Society A,
+#' 182(2), 389–402. https://doi.org/10.1111/rssa.12378
+#' @returns A matrix of simulated dissimilarities from the posterior predictive distribution with `nsim` rows and `n * (n-1) / 2` columns, where `n` is the number of objects (i.e. the number of rows/columns of `dis_matrix`).
+#'
+#' @examples
+#' \dontrun{
+#' x <- matrix(rnorm(10*2), ncol = 2)
+#' dis_matrix <- dist(x)
+#'
+#' # Fit the UU model to simulated data
+#' mcmc_samples <- run_dpcd("UU", dis_matrix, p = 2, niter = 10000, nburn = 2000)
+#'
+#' # Perform a posterior predictive check.
+#' ppc <- post_predictive(dis_matrix, mcmc_samples, nsim = 1000, plot = TRUE)
+#' }
+#' @import ggplot2
+#' @importFrom bayesplot ppc_dens_overlay
+#' @export
 post_predictive <- function(dis_matrix,
                             mcmc_samples,
                             nsim = 1000,
@@ -40,8 +73,7 @@ post_predictive <- function(dis_matrix,
   }
 
   if (scale == TRUE) {
-    scalar <- 1 / max(d_obs)
-    d_obs <- scalar * d_obs
+    d_obs <- d_obs / max(d_obs)
   }
 
   n <- nrow(d_obs)

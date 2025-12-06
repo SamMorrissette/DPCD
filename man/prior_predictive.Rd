@@ -8,15 +8,16 @@ prior_predictive(
   model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
   dis_matrix,
   p,
-  trunc_value = 10,
+  trunc_value = 15,
   hyper_params = NULL,
-  init_params = NULL,
   scale = TRUE,
   nsim = 1000,
   plot = TRUE
 )
 }
 \arguments{
+\item{model_name}{The DPCD model from which to draw prior predictive samples. Must be one of "UU", "EU", "UD", "ED", "US", or "ES".}
+
 \item{dis_matrix}{A distance structure such as that returned by \link[stats:dist]{stats::dist} or a full symmetric matrix containing the dissimilarities.}
 
 \item{p}{The dimension of the space in which the objects are embedded. Must be at least 2.}
@@ -25,14 +26,40 @@ prior_predictive(
 
 \item{hyper_params}{A named list of hyperparameter values. See details for more information.}
 
-\item{init_params}{A named list of initial values for model parameters. See details for more information.}
-
-\item{scale}{Logical indicating whether to scale the distance matrix so that its maximum value is 1.}
+\item{scale}{Logical argument indicating whether to scale the dissimilarities so that the maximum value is 1.}
 
 \item{nsim}{Number of datasets to simulate from the prior predictive distribution.}
 
-\item{plot}{Logical indicating whether to plot the simulated datasets. See details for more information.}
+\item{plot}{Logical argument indicating whether to plot the simulated dissimilarities against the observed dissimilarities. See details for more information.}
+}
+\value{
+A matrix of simulated dissimilarities from the prior predictive distribution with \code{nsim} rows and \code{n * (n-1) / 2} columns, where \code{n} is the number of objects (i.e. the number of rows/columns of \code{dis_matrix}).
 }
 \description{
-Prior Predictive Check
+This function simulates dissimilarities from the prior predictive distribution of a specified DPCD model and optionally plots the density of the simulated dissimilarities against the observed dissimilarities.
+}
+\details{
+A prior predictive check is used to assess if datasets drawn from the prior predictive distribution are consistent with the observed data. Most of the mass of the prior predictive distribution should be placed on plausible values of the dissimilarities, while little or no mass should be placed on implausible values.
+
+If \code{plot = TRUE}, a plot is created to compare the density of the observed dissimilarities to the densities of the dissimilarities simulated from the prior predictive distribution using \code{bayesplot::ppc_dens_overlay()}.
+
+See \code{\link[=run_dpcd]{run_dpcd()}} for details on the DPCD models and hyperparameters.
+}
+\examples{
+\dontrun{
+x <- matrix(rnorm(10*2), ncol = 2)
+dis_matrix <- dist(x)
+
+# Prior predictive check for the UU model with default hyperparameters.
+ppc <- prior_predictive("UU", dis_matrix, p = 2, nsim = 100, plot = TRUE)
+}
+
+}
+\references{
+Gabry, J., Simpson, D., Vehtari, A., Betancourt, M., & Gelman, A. (2019).
+Visualization in Bayesian workflow. Journal of the Royal Statistical Society A,
+182(2), 389–402. https://doi.org/10.1111/rssa.12378
+}
+\seealso{
+\code{\link[=run_dpcd]{run_dpcd()}}
 }

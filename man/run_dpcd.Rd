@@ -8,10 +8,10 @@ run_dpcd(
   model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
   dis_matrix,
   p,
-  trunc_value = 10,
+  trunc_value = 15,
   hyper_params = NULL,
   init_params = NULL,
-  output_params = c("x", "z", "pi", "mu", "Sigma", "sigma_sq", "beta"),
+  output_params = c("x", "z", "pi", "mu", "Sigma", "sigma_sq"),
   scale = TRUE,
   WAIC = TRUE,
   nchains = 1,
@@ -21,6 +21,8 @@ run_dpcd(
 )
 }
 \arguments{
+\item{model_name}{The DPCD model to fit. Must be one of "UU" (unequal unrestricted), "EU" (equal unrestricted), "UD" (unequal diagonal), "ED" (equal diagonal), "US" (unequal spherical), or "ES" (equal spherical). See details for a brief description of each model.}
+
 \item{dis_matrix}{A distance structure such as that returned by \link[stats:dist]{stats::dist} or a full symmetric matrix containing the dissimilarities.}
 
 \item{p}{The dimension of the space in which the objects are embedded. Must be at least 2.}
@@ -33,7 +35,9 @@ run_dpcd(
 
 \item{output_params}{A character vector of model parameters to save in the output. See details for more information.}
 
-\item{scale}{Logical indicating whether to scale the distance matrix so that its maximum value is 1.}
+\item{scale}{Logical argument indicating whether to scale the dissimilarities so that the maximum value is 1.}
+
+\item{WAIC}{Logical argument indicating whether to compute the Watanabe-Akaike Information Criterion (WAIC) for model comparison.}
 
 \item{nchains}{Number of MCMC chains to run.}
 
@@ -44,17 +48,82 @@ run_dpcd(
 \item{...}{Additional arguments passed to \code{\link[nimble:nimbleMCMC]{nimble::nimbleMCMC()}} from the \code{nimble} package.}
 }
 \value{
-Test
+Posterior samples are returned a coda \code{mcmc} object, unless \code{nchains > 1}, in which case the posterior samples are returend as a coda \code{mcmc.list} object. If \code{WAIC = TRUE}, a named list is returned containing the posterior samples and the WAIC value.
 }
 \description{
 This function fits an infinite mixture model to dissimilarity data using a Dirichlet Process prior. The model is constructed and MCMC sampling is performed using the \href{https://r-nimble.org/}{\code{nimble}} package. Currently, there are six different models available.
 }
 \details{
-Test
+Dirichlet Process Clustering with Dissimilarities (DPCD) models dissimilarity
+data using an infinite mixture model with a Dirichlet Process prior. The six
+available covariance structures for mixture components are:
+\itemize{
+\item \strong{"UU"}: Unequal Unrestricted — each component has its own unrestricted covariance matrix.
+\item \strong{"EU"}: Equal Unrestricted — components share a common unrestricted covariance matrix.
+\item \strong{"UD"}: Unequal Diagonal — each component has its own diagonal covariance matrix.
+\item \strong{"ED"}: Equal Diagonal — components share a common diagonal covariance matrix.
+\item \strong{"US"}: Unequal Spherical — each component has its own spherical covariance matrix.
+\item \strong{"ES"}: Equal Spherical — components share a common spherical covariance matrix.
+}
+
+The \code{hyper_params} list allows users to specify custom hyperparameter values.
+Some hyperparameters are common across all models, while others depend on the
+selected covariance structure.
+
+\strong{Common hyperparameters:}
+\itemize{
+\item \code{alpha_0}: Concentration parameter for the Dirichlet Process prior.
+\item \code{a_0}, \code{b_0}: Shape and scale parameters for the Inverse-Gamma prior on the
+measurement error parameter.
+\item \code{lambda}: Scaling parameter for the prior on component means.
+\item \code{mu_0}: Mean vector for the prior on component means.
+}
+
+\strong{Model-specific hyperparameters:}
+\itemize{
+\item For "UU" and "EU": \code{nu_0} and \code{Psi_0} (degrees of freedom and scale matrix
+for the Inverse-Wishart prior).
+\item For "UD", "ED", "US", and "ES": \code{alpha_tau} and \code{beta_tau} (shape and scale
+parameters for the Inverse-Gamma prior).
+}
+
+The \code{init_params} list allows users to supply initial values for model
+parameters to assist MCMC convergence. The following parameters may be
+initialized:
+\itemize{
+\item \code{x}: \verb{n × p} matrix of latent positions.
+\item \code{sigma_sq}: Scalar measurement error variance.
+\item \code{mu}: \verb{trunc_value × p} matrix of component means.
+\item \code{Sigma}: \verb{p × p} covariance matrix.
+\item \code{tau_sq}: Scalar variance parameter (for "US" and "ES" only).
+\item \code{tau_vec}: Length-\code{p} variance vector (for "UD" and "ED" only).
+\item \code{beta}: Length \code{trunc_value-1} vector of stick-breaking weights.
+\item \code{z}: Length-\code{n} vector of cluster assignments.
+}
+
+Default values are used for both \code{hyper_params} and \code{init_params} if none are
+supplied.
+
+The \code{output_params} vector specifies which model parameters should be saved in
+the MCMC output. Valid names include \code{"beta"}, \code{"pi"}, \code{"z"}, \code{"mu"},
+\code{"Sigma"}, \code{"sigma_sq"}, \code{"x"}, and \code{"delta"}.
 }
 \examples{
+\dontrun{
 x <- matrix(rnorm(10*2), ncol = 2)
+
+# Fit the unequal unrestricted model with default settings
 dis_matrix <- dist(x)
-mcmc_samples <- run_dpcd(dis_matrix, p = 2, niter = 1000, nburn = 200)
+mcmc_samples <- run_dpcd("UU", dis_matrix, p = 2, niter = 10000, nburn = 2000)
+summary(mcmc_samples)
+
+# Fit the equal spherical model with custom hyperparameters and initial values
+custom_hyper_params <- list(alpha_tau = 0.01, beta_tau = 0.01)
+custom_init_params <- list(sigma_sq = 0.5)
+mcmc_samples_es <- run_dpcd("ES", dis_matrix, p = 2,
+                            hyper_params = custom_hyper_params,
+                            init_params = custom_init_params,
+                            niter = 10000, nburn = 2000, WAIC = TRUE)
+}
 
 }

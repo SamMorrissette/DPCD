@@ -2,12 +2,14 @@
 #'
 #' Aligns a given object configuration to a target object configuration using a Procrustes transformation.
 #'
-#' @param X A matrix containing the target configuration.
-#' @param Y A matrix containing the configuration to be aligned to the target.
+#' @param X The target configuration.
+#' @param Y The configuration to be aligned to X.
 #'
-#' @details This function performs a Procrustes transformation to align a given configuration, Y, to the target configuration, X, using a combination of translation and rotation. The transformation aims to minimize the sum of squared differences between the two configurations.
+#' @details This function performs a Procrustes transformation to align a given configuration, `Y`, to the target configuration, `X`, using a combination of translation and rotation. The transformation aims to minimize the sum of squared differences between the two configurations.
 #'
-#' @returns The transformed version of Y aligned to X.
+#' `X` and `Y` should be numeric matrices of the same dimension.
+#'
+#' @return The transformed version of Y aligned to X.
 #'
 #' @examples
 #' X <- matrix(rnorm(20), ncol = 2)

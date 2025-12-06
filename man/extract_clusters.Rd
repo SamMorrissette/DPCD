@@ -2,13 +2,35 @@
 % Please edit documentation in R/extract_clusters.R
 \name{extract_clusters}
 \alias{extract_clusters}
-\title{Title}
+\title{Extract clusters from MCMC samples}
 \usage{
 extract_clusters(mcmc_samples)
 }
 \arguments{
-\item{mcmc_samples}{}
+\item{mcmc_samples}{An object of class \code{mcmc} or \code{mcmc.list} containing posterior samples from a DPCD model fit using \code{\link[=run_dpcd]{run_dpcd()}}. The variable \code{z} must be included in the output parameters.}
+}
+\value{
+A vector of labels that indicate the estimated cluster membership for each observation.
 }
 \description{
-Title
+This function extracts estimated cluster memberships from MCMC samples obtained from a DPCD model fit.
+}
+\details{
+This function uses the cluster membership variable, \code{z}, from the provided MCMC samples to compute the posterior similarity matrix (PSM) based on the sampled cluster assignments. Using the PSM, it then determines the estimated cluster memberships by maximizing the posterior expected adjusted Rand index, following the method of Fritsch and Ickstadt (2009).
+}
+\examples{
+\dontrun{
+x <- matrix(rnorm(10*2), ncol = 2)
+dis_matrix <- dist(x)
+mcmc_samples <- run_dpcd("UU", dis_matrix, p = 2, niter = 10000, nburn = 2000)
+extract_clusters(mcmc_samples)
+}
+
+
+}
+\references{
+Fritsch, Arno & Ickstadt, Katja. (2009). An Improved Criterion for Clustering Based on the Posterior Similarity Matrix. Bayesian Analysis. 4. 10.1214/09-BA414.
+}
+\seealso{
+\code{\link[mcclust:maxpear]{mcclust::maxpear()}}
 }

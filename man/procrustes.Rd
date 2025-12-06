@@ -7,9 +7,9 @@
 procrustes(X, Y)
 }
 \arguments{
-\item{X}{A matrix containing the target configuration.}
+\item{X}{The target configuration.}
 
-\item{Y}{A matrix containing the configuration to be aligned to the target.}
+\item{Y}{The configuration to be aligned to X.}
 }
 \value{
 The transformed version of Y aligned to X.
@@ -18,7 +18,9 @@ The transformed version of Y aligned to X.
 Aligns a given object configuration to a target object configuration using a Procrustes transformation.
 }
 \details{
-This function performs a Procrustes transformation to align a given configuration, Y, to the target configuration, X, using a combination of translation and rotation. The transformation aims to minimize the sum of squared differences between the two configurations.
+This function performs a Procrustes transformation to align a given configuration, \code{Y}, to the target configuration, \code{X}, using a combination of translation and rotation. The transformation aims to minimize the sum of squared differences between the two configurations.
+
+\code{X} and \code{Y} should be numeric matrices of the same dimension.
 }
 \examples{
 X <- matrix(rnorm(20), ncol = 2)

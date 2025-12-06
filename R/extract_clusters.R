@@ -1,12 +1,28 @@
-#' Title
+#' Extract clusters from MCMC samples
 #'
-#' @param mcmc_samples
+#' This function extracts estimated cluster memberships from MCMC samples obtained from a DPCD model fit.
 #'
-#' @returns
-#' @export
+#' @param mcmc_samples An object of class `mcmc` or `mcmc.list` containing posterior samples from a DPCD model fit using [run_dpcd()]. The variable `z` must be included in the output parameters.
+#'
+#' @details
+#' This function uses the cluster membership variable, `z`, from the provided MCMC samples to compute the posterior similarity matrix (PSM) based on the sampled cluster assignments. Using the PSM, it then determines the estimated cluster memberships by maximizing the posterior expected adjusted Rand index, following the method of Fritsch and Ickstadt (2009).
+#'
+#' @references Fritsch, Arno & Ickstadt, Katja. (2009). An Improved Criterion for Clustering Based on the Posterior Similarity Matrix. Bayesian Analysis. 4. 10.1214/09-BA414.
+#'
+#' @seealso [mcclust::maxpear()]
+#' @returns A vector of labels that indicate the estimated cluster membership for each observation.
 #'
 #' @examples
+#' \dontrun{
+#' x <- matrix(rnorm(10*2), ncol = 2)
+#' dis_matrix <- dist(x)
+#' mcmc_samples <- run_dpcd("UU", dis_matrix, p = 2, niter = 10000, nburn = 2000)
+#' extract_clusters(mcmc_samples)
+#' }
+#'
+#'
 #' @importFrom mcclust comp.psm maxpear
+#' @export
 
 extract_clusters <- function(mcmc_samples) {
 

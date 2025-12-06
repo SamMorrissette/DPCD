@@ -1,24 +1,12 @@
-#' DP Nimble Model Code
+#' Create a spherical covariance matrix
 #'
-#' Nimble code for six different DP models.
+#' A nimbleFunction that returns a diagonal matrix with all diagonal entries equal to tau_sq. This function is not intended to be called by users of the package directly.
 #'
-#' @noRd
-
+#' @param tau_sq The variance parameter for the spherical covariance matrix.
+#' @param p The dimension of the covariance matrix.
+#' @return A p x p spherical covariance matrix.
 #' @keywords internal
-#' @export
-makeDiagonalSigma <- nimble::nimbleFunction(
-  run = function(tau_sq_vec = double(1)) {
-    returnType(double(2))  # returns a p x p matrix
-    p <- length(tau_sq_vec)
-    Sigma <- matrix(0, nrow = p, ncol = p)
-    for(i in 1:p){
-      Sigma[i,i] <- tau_sq_vec[i]
-    }
-    return(Sigma)
-  }
-)
-
-#' @keywords internal
+#' @seealso \code{\link[nimble]{nimbleFunction}} for information on nimbleFunctions.
 #' @export
 makeSphericalSigma <- nimble::nimbleFunction(
   run = function(tau_sq = double(0), p = integer(0)) {
@@ -30,6 +18,34 @@ makeSphericalSigma <- nimble::nimbleFunction(
     return(Sigma)
   }
 )
+
+#' Create a diagonal covariance matrix
+#'
+#' A nimbleFunction that returns a diagonal matrix with diagonal entries equal to tau_sq_vec. This function is not intended to be called by users of the package directly.
+#'
+#' @param tau_sq_vec A vector of length `p` containing variance parameters for the covariance matrix.
+#' @return A p x p spherical covariance matrix.
+#' @keywords internal
+#' @seealso \code{\link[nimble]{nimbleFunction}} for information on nimbleFunctions.
+#' @export
+#'
+makeDiagonalSigma <- nimble::nimbleFunction(
+run = function(tau_sq_vec = double(1)) {
+  returnType(double(2))
+  p <- length(tau_sq_vec)
+  Sigma <- matrix(0, nrow = p, ncol = p)
+  for(i in 1:p){
+    Sigma[i,i] <- tau_sq_vec[i]
+  }
+  return(Sigma)
+}
+)
+
+
+#' Nimble Code for the Dirichlet Process Clustering with Dissimilarities (DPCD) Models
+#'
+#' @keywords internal
+#' @noRd
 
 unequal_unrestricted_model <- nimble::nimbleCode({
   for (k in 1:(N-1)) {

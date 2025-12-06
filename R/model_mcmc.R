@@ -1,21 +1,11 @@
 #' MCMC Sampling for a Specified Nimble Model
 #'
-#' An internal function to run the unequal unrestricted (UU) model. This function is called by [run_dpcd()].
-#'
-#' @param data A symmetric dissimilarity matrix.
-#' @param constants A named list of model constant values (including hyperparameters).
-#' @param init_params A named list of initial values for model parameters.
-#' @param monitors A character vector of model parameters to save in the output.
-#' @param nchains The number of MCMC chains to run.
-#' @param niter The number of MCMC iterations to run.
-#' @param nburn The number of MCMC burn-in iterations.
-#' @param ... Additional arguments passed to `nimbleMCMC()`.
-#'
-#' @returns MCMC samples as a `coda` object.
+#' An internal function to run the unequal unrestricted (UU) model. This is not intended to be called by users. This function is called by [run_dpcd()].
 #'
 #' @import nimble
 #'
 #' @keywords internal
+#' @noRd
 model_mcmc <- function(model_name,
                        data,
                        constants,

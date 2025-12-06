@@ -1,19 +1,44 @@
 #' Prior Predictive Check
 #'
-#' @inheritParams run_dpcd
-#' @param nsim Number of datasets to simulate from the prior predictive distribution.
-#' @param plot Logical indicating whether to plot the simulated datasets. See details for more information.
+#' This function simulates dissimilarities from the prior predictive distribution of a specified DPCD model and optionally plots the density of the simulated dissimilarities against the observed dissimilarities.
 #'
-#' @returns
+#' @param model_name The DPCD model from which to draw prior predictive samples. Must be one of "UU", "EU", "UD", "ED", "US", or "ES".
+#' @param nsim Number of datasets to simulate from the prior predictive distribution.
+#' @param plot Logical argument indicating whether to plot the simulated dissimilarities against the observed dissimilarities. See details for more information.
+#' @inheritParams run_dpcd
+#'
+#' @details A prior predictive check is used to assess if datasets drawn from the prior predictive distribution are consistent with the observed data. Most of the mass of the prior predictive distribution should be placed on plausible values of the dissimilarities, while little or no mass should be placed on implausible values.
+#'
+#' If `plot = TRUE`, a plot is created to compare the density of the observed dissimilarities to the densities of the dissimilarities simulated from the prior predictive distribution using `bayesplot::ppc_dens_overlay()`.
+#'
+#' See [run_dpcd()] for details on the DPCD models and hyperparameters.
+#' @seealso [run_dpcd()]
+#' @references
+#' Gabry, J., Simpson, D., Vehtari, A., Betancourt, M., & Gelman, A. (2019).
+#' Visualization in Bayesian workflow. Journal of the Royal Statistical Society A,
+#' 182(2), 389–402. https://doi.org/10.1111/rssa.12378
+#'
+#' @returns A matrix of simulated dissimilarities from the prior predictive distribution with `nsim` rows and `n * (n-1) / 2` columns, where `n` is the number of objects (i.e. the number of rows/columns of `dis_matrix`).
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' x <- matrix(rnorm(10*2), ncol = 2)
+#' dis_matrix <- dist(x)
+#'
+#' # Prior predictive check for the UU model with default hyperparameters.
+#' ppc <- prior_predictive("UU", dis_matrix, p = 2, nsim = 100, plot = TRUE)
+#' }
+#'
+#' @import ggplot2
+#' @importFrom bayesplot ppc_dens_overlay
+#' @importFrom truncnorm rtruncnorm
+#'
 prior_predictive <- function(model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
                              dis_matrix,
                              p,
-                             trunc_value = 10,
+                             trunc_value = 15,
                              hyper_params = NULL,
-                             init_params = NULL,
                              scale = TRUE,
                              nsim = 1000,
                              plot = TRUE) {
@@ -45,11 +70,10 @@ prior_predictive <- function(model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
   }
 
   if (scale == TRUE) {
-    scalar <- 1 / max(d_obs)
-    d_obs <- scalar * d_obs
+    d_obs <- d_obs / max(d_obs)
   }
 
-  model_config <- get_config(model_name, d_obs, p, trunc_value, hyper_params, init_params)
+  model_config <- get_config(model_name, d_obs, p, trunc_value, hyper_params, user_inits = NULL)
 
   empty_data <- list(d_obs = array(NA, dim = dim(d_obs)))
 
