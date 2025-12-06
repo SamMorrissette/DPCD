@@ -40,10 +40,9 @@
 #' - `mu_0`: Mean vector for the prior on component means.
 #'
 #' **Model-specific hyperparameters:**
-#' - For "UU" and "EU": `nu_0` and `Psi_0` (degrees of freedom and scale matrix
-#'   for the Inverse-Wishart prior).
-#' - For "UD", "ED", "US", and "ES": `alpha_tau` and `beta_tau` (shape and scale
-#'   parameters for the Inverse-Gamma prior).
+#' - `nu_0` and `Psi_0`(degrees of freedom and scale matrix for the Inverse-Wishart prior) - UU and EU only.
+#' - `alpha_tau` and `beta_tau` (shape and scale
+#'   parameters for the Inverse-Gamma prior) - UD, ED, US, and ES only.
 #'
 #' The `init_params` list allows users to supply initial values for model
 #' parameters to assist MCMC convergence. The following parameters may be

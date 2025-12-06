@@ -2,7 +2,7 @@
 #'
 #' Generates a plot of the posterior mean of the latent coordinates (`x`) from a DPCD model fit, aligned to a specified target matrix using a Procrustes transformation.
 #'
-#' @param mcmc_samples An object of class `mcmc` or `mcmc.list` containing posterior samples from a DPCD model fit using [run_dpcd()].
+#' @param mcmc_samples An object of class `mcmc` or `mcmc.list` containing posterior samples from a DPCD model fit using [run_dpcd()]. Variable `x` must be included in the output parameters.
 #' @param target_matrix A matrix used as the target for aligning the posterior latent coordinates (`x`) via a Procrustes transformation.
 #' @param show_clusters Logical argument indicating whether to colour points by their cluster membership. If `TRUE`, then `z` must be monitored in `mcmc_samples`.
 #' @param ... Additional arguments to be passed to `plot()` (2 dimensions) or `pairs()` (higher dimensions).

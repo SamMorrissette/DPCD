@@ -54,7 +54,7 @@ clusters <- extract_clusters(fit$samples)
 clusters
 ```
 
-Posterior predictive checks can be performed using the `post_predictive()` function to ensure that the model fits well. Note that, by default, the input dissimilarities are scaled so that the maximum value is 1. This can be toggled off with `scale = TRUE`, but it is recommended to provide different hyperparameters (using the `hyperparams` argument) if scaling is disabled.
+Posterior predictive checks can be performed using the `post_predictive()` function to ensure that the model fits well. Note that, by default, the input dissimilarities are scaled so that the maximum value is 1. This can be toggled off with `scale = TRUE`, but it is recommended to provide different hyperparameters (using the `hyper_params` argument) if scaling is disabled.
 
 ```{r}
 ppc <- post_predictive(dis_mat, fit$samples)

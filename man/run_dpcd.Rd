@@ -81,10 +81,9 @@ measurement error parameter.
 
 \strong{Model-specific hyperparameters:}
 \itemize{
-\item For "UU" and "EU": \code{nu_0} and \code{Psi_0} (degrees of freedom and scale matrix
-for the Inverse-Wishart prior).
-\item For "UD", "ED", "US", and "ES": \code{alpha_tau} and \code{beta_tau} (shape and scale
-parameters for the Inverse-Gamma prior).
+\item \code{nu_0} and \code{Psi_0}(degrees of freedom and scale matrix for the Inverse-Wishart prior) - UU and EU only.
+\item \code{alpha_tau} and \code{beta_tau} (shape and scale
+parameters for the Inverse-Gamma prior) - UD, ED, US, and ES only.
 }
 
 The \code{init_params} list allows users to supply initial values for model

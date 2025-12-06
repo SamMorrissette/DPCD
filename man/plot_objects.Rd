@@ -7,7 +7,7 @@
 plot_objects(mcmc_samples, target_matrix, show_clusters = TRUE, ...)
 }
 \arguments{
-\item{mcmc_samples}{An object of class \code{mcmc} or \code{mcmc.list} containing posterior samples from a DPCD model fit using \code{\link[=run_dpcd]{run_dpcd()}}.}
+\item{mcmc_samples}{An object of class \code{mcmc} or \code{mcmc.list} containing posterior samples from a DPCD model fit using \code{\link[=run_dpcd]{run_dpcd()}}. Variable \code{x} must be included in the output parameters.}
 
 \item{target_matrix}{A matrix used as the target for aligning the posterior latent coordinates (\code{x}) via a Procrustes transformation.}
 
