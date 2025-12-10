@@ -31,8 +31,8 @@
 #' @import ggplot2
 #' @importFrom bayesplot ppc_dens_overlay
 #' @export
-post_predictive <- function(dis_matrix,
-                            mcmc_samples,
+post_predictive <- function(mcmc_samples,
+                            dis_matrix,
                             nsim = 1000,
                             scale = TRUE,
                             plot = TRUE) {

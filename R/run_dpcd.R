@@ -86,9 +86,9 @@
 #' @importFrom utils modifyList
 #' @export
 
-run_dpcd <- function(model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
-                     dis_matrix,
-                     p,
+run_dpcd <- function(dis_matrix,
+                     model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
+                     p = 2,
                      trunc_value = 15,
                      hyper_params = NULL,
                      init_params = NULL,

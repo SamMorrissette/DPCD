@@ -5,9 +5,9 @@
 \title{Run Dirichlet Process Clustering with Dissimilarities}
 \usage{
 run_dpcd(
-  model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
   dis_matrix,
-  p,
+  model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
+  p = 2,
   trunc_value = 15,
   hyper_params = NULL,
   init_params = NULL,
@@ -21,9 +21,9 @@ run_dpcd(
 )
 }
 \arguments{
-\item{model_name}{The DPCD model to fit. Must be one of "UU" (unequal unrestricted), "EU" (equal unrestricted), "UD" (unequal diagonal), "ED" (equal diagonal), "US" (unequal spherical), or "ES" (equal spherical). See details for a brief description of each model.}
-
 \item{dis_matrix}{A distance structure such as that returned by \link[stats:dist]{stats::dist} or a full symmetric matrix containing the dissimilarities.}
+
+\item{model_name}{The DPCD model to fit. Must be one of "UU" (unequal unrestricted), "EU" (equal unrestricted), "UD" (unequal diagonal), "ED" (equal diagonal), "US" (unequal spherical), or "ES" (equal spherical). See details for a brief description of each model.}
 
 \item{p}{The dimension of the space in which the objects are embedded. Must be at least 2.}
 

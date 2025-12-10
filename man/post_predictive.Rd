@@ -5,17 +5,17 @@
 \title{Posterior Predictive Check}
 \usage{
 post_predictive(
-  dis_matrix,
   mcmc_samples,
+  dis_matrix,
   nsim = 1000,
   scale = TRUE,
   plot = TRUE
 )
 }
 \arguments{
-\item{dis_matrix}{A distance structure such as that returned by \link[stats:dist]{stats::dist} or a full symmetric matrix containing the dissimilarities.}
-
 \item{mcmc_samples}{An object of class \code{mcmc} or \code{mcmc.list} containing posterior samples from a DPCD model fit using \code{\link[=run_dpcd]{run_dpcd()}}. Both the latent positions \code{x} and the error variance \code{sigma_sq} must be monitored in \code{mcmc_samples}.}
+
+\item{dis_matrix}{A distance structure such as that returned by \link[stats:dist]{stats::dist} or a full symmetric matrix containing the dissimilarities.}
 
 \item{nsim}{Number of datasets to simulate from the posterior predictive distribution.}
 

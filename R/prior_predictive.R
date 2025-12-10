@@ -34,9 +34,9 @@
 #' @importFrom bayesplot ppc_dens_overlay
 #' @importFrom truncnorm rtruncnorm
 #'
-prior_predictive <- function(model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
-                             dis_matrix,
-                             p,
+prior_predictive <- function(dis_matrix,
+                             model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
+                             p = 2,
                              trunc_value = 15,
                              hyper_params = NULL,
                              scale = TRUE,

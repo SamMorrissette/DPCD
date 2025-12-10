@@ -5,9 +5,9 @@
 \title{Prior Predictive Check}
 \usage{
 prior_predictive(
-  model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
   dis_matrix,
-  p,
+  model_name = c("UU", "EU", "UD", "ED", "US", "ES"),
+  p = 2,
   trunc_value = 15,
   hyper_params = NULL,
   scale = TRUE,
@@ -16,9 +16,9 @@ prior_predictive(
 )
 }
 \arguments{
-\item{model_name}{The DPCD model from which to draw prior predictive samples. Must be one of "UU", "EU", "UD", "ED", "US", or "ES".}
-
 \item{dis_matrix}{A distance structure such as that returned by \link[stats:dist]{stats::dist} or a full symmetric matrix containing the dissimilarities.}
+
+\item{model_name}{The DPCD model from which to draw prior predictive samples. Must be one of "UU", "EU", "UD", "ED", "US", or "ES".}
 
 \item{p}{The dimension of the space in which the objects are embedded. Must be at least 2.}
 

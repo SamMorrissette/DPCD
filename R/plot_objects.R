@@ -18,7 +18,6 @@
 #' target_matrix <- cmdscale(dis_matrix, k = 2)
 #' plot_x(mcmc_samples, target_matrix, show_clusters = TRUE)
 #' }
-#' @importFrom mcclust comp.psm maxpear
 #' @importFrom graphics pairs
 #' @export
 plot_objects <- function(mcmc_samples, target_matrix, show_clusters = TRUE, ...) {
@@ -65,12 +64,11 @@ plot_objects <- function(mcmc_samples, target_matrix, show_clusters = TRUE, ...)
   colnames(final_mat) <- paste0("Dim", 1:latent_dim)
 
   if (show_clusters == TRUE) {
-    psm <- mcclust::comp.psm(z_samples)
-    cluster_labels <- mcclust::maxpear(psm)
+    cl <- extract_clusters(mcmc_samples)
     if (latent_dim == 2) {
-      plot(final_mat, col = cluster_labels$cl, pch = 19, ...)
+      plot(final_mat, col = cl, pch = 19, ...)
     } else if (latent_dim > 2) {
-      pairs(final_mat, col = cluster_labels$cl, pch = 19, ...)
+      pairs(final_mat, col = cl, pch = 19, ...)
     } else {
       stop("Latent dimension must be at least 2.")
     }
