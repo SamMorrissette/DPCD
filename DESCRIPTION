@@ -16,6 +16,7 @@ Depends:
     ggplot2,
     bayesplot,
     mcclust,
+    cluster,
     truncnorm
 URL: https://github.com/SamMorrissette/DPCD
 BugReports: https://github.com/SamMorrissette/DPCD/issues
