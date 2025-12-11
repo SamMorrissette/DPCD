@@ -27,8 +27,8 @@ configure_model_common <- function(d_obs,
   # Hyperparameters
   d_W <- 0.05
   d_B <- 0.3
-  e_sigma_sq <- 0.20
-  v_sigma_sq <- 0.5
+  e_sigma_sq <- 0.02^2
+  v_sigma_sq <- 0.01
 
   a_0 <- (e_sigma_sq^2 + (2*v_sigma_sq)) / v_sigma_sq
   b_0 <- e_sigma_sq * (a_0 - 1)
