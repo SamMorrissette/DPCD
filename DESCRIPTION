@@ -1,6 +1,6 @@
 Package: DPCD
 Title: Dirichlet Process Clustering with Dissimilarities
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person("Sam", "Morrissette", email = "samuel.morrissette01@gmail.com", role = c("cph", "aut", "cre"))
 Description: A Bayesian hierarchical model for clustering dissimilarity data using the Dirichlet process. The latent configuration of objects and the number of clusters are automatically inferred during the fitting process. The package supports multiple models which are available to detect clusters of various shapes and sizes using different covariance structures. Additional functions are included to ensure adequate model fits through prior and posterior predictive checks. 
