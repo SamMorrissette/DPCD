@@ -46,12 +46,8 @@ If \code{plot = TRUE}, a plot is created to compare the density of the observed 
 See \code{\link[=run_dpcd]{run_dpcd()}} for details on the DPCD models and hyperparameters.
 }
 \examples{
-\dontrun{
-x <- matrix(rnorm(10*2), ncol = 2)
-dis_matrix <- dist(x)
-
-# Prior predictive check for the UU model with default hyperparameters.
-ppc <- prior_predictive("UU", dis_matrix, p = 2, nsim = 100, plot = TRUE)
+\donttest{
+ppc <- prior_predictive(dis_mat_example, "UU", p = 2, nsim = 100, plot = TRUE)
 }
 
 }

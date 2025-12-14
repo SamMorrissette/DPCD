@@ -7,12 +7,7 @@
 #' @returns A numeric value representing the average silhouette score across all MCMC iterations.
 #'
 #' @examples
-#' \dontrun{
-#' x <- matrix(rnorm(10*2), ncol = 2)
-#' dis_matrix <- dist(x)
-#' mcmc_samples <- run_dpcd("UU", dis_matrix, p = 2, niter = 10000, nburn = 2000)
-#' bs_score(mcmc_samples)
-#' }
+#' bs_score(mcmc_example)
 #'
 #' @importFrom cluster silhouette
 #' @export

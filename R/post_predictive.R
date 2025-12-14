@@ -18,16 +18,7 @@
 #' @returns A matrix of simulated dissimilarities from the posterior predictive distribution with `nsim` rows and `n * (n-1) / 2` columns, where `n` is the number of objects (i.e. the number of rows/columns of `dis_matrix`).
 #'
 #' @examples
-#' \dontrun{
-#' x <- matrix(rnorm(10*2), ncol = 2)
-#' dis_matrix <- dist(x)
-#'
-#' # Fit the UU model to simulated data
-#' mcmc_samples <- run_dpcd("UU", dis_matrix, p = 2, niter = 10000, nburn = 2000)
-#'
-#' # Perform a posterior predictive check.
-#' ppc <- post_predictive(dis_matrix, mcmc_samples, nsim = 1000, plot = TRUE)
-#' }
+#' ppc <- post_predictive(mcmc_example, dis_mat_example, nsim = 100, plot = TRUE)
 #' @import ggplot2
 #' @importFrom bayesplot ppc_dens_overlay
 #' @export

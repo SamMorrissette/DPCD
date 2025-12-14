@@ -19,11 +19,6 @@ This function calculates the Bayesian Silhouette (BS) Score for a DPCD model fit
 The Bayesian Silhouette Score is computed by calculating the silhouette score for each MCMC iteration based on the latent positions (\code{x}) and cluster assignments (\code{z}). The silhouette score measures how similar an object is to its own cluster compared to other clusters. The BS score is then obtained by averaging the silhouette scores across all MCMC iterations. Higher values of the BS score indicate a higher-quality DPCD model in terms of its clustering structure.
 }
 \examples{
-\dontrun{
-x <- matrix(rnorm(10*2), ncol = 2)
-dis_matrix <- dist(x)
-mcmc_samples <- run_dpcd("UU", dis_matrix, p = 2, niter = 10000, nburn = 2000)
-bs_score(mcmc_samples)
-}
+bs_score(mcmc_example)
 
 }

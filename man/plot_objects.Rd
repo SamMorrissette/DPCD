@@ -25,14 +25,9 @@ Generates a plot of the posterior mean of the latent coordinates (\code{x}) from
 Since the latent coordinates are non-identifiable due to invariance of Euclidean distances to rotation, reflection, and translation, this function first aligns the posterior samples of \code{x} to a specified target matrix using a Procrustes transformation. Then, it computes the posterior mean of the aligned latent coordinates and generates a plot. If \code{show_clusters} is set to \code{TRUE}, points are coloured according to their cluster memberships, which is estimated through maximizing the posterior expected adjusted Rand index (Fritsch and Ickstadt, 2009).
 }
 \examples{
-\dontrun{
-x <- matrix(rnorm(10*2), ncol = 2)
-dis_matrix <- dist(x)
-mcmc_samples <- run_dpcd("UU", dis_matrix, p = 2, niter = 10000, nburn = 2000)
-target_matrix <- cmdscale(dis_matrix, k = 2)
-plot_x(mcmc_samples, target_matrix, show_clusters = TRUE)
-}
+target_matrix <- cmdscale(dis_mat_example, k = 2)
+plot_objects(mcmc_example, target_matrix, show_clusters = TRUE)
 }
 \references{
-Fritsch, Arno & Ickstadt, Katja. (2009). An Improved Criterion for Clustering Based on the Posterior Similarity Matrix. Bayesian Analysis. 4. 10.1214/09-BA414.
+Fritsch, Arno & Ickstadt, Katja. (2009). An Improved Criterion for Clustering Based on the Posterior Similarity Matrix. Bayesian Analysis. 4. \url{doi:10.1214/09-BA414}.
 }

@@ -37,16 +37,7 @@ If \code{plot = TRUE}, a plot is created to compare the density of the observed 
 See \code{\link[=run_dpcd]{run_dpcd()}} for details on the DPCD models and hyperparameters.
 }
 \examples{
-\dontrun{
-x <- matrix(rnorm(10*2), ncol = 2)
-dis_matrix <- dist(x)
-
-# Fit the UU model to simulated data
-mcmc_samples <- run_dpcd("UU", dis_matrix, p = 2, niter = 10000, nburn = 2000)
-
-# Perform a posterior predictive check.
-ppc <- post_predictive(dis_matrix, mcmc_samples, nsim = 1000, plot = TRUE)
-}
+ppc <- post_predictive(mcmc_example, dis_mat_example, nsim = 100, plot = TRUE)
 }
 \references{
 Gabry, J., Simpson, D., Vehtari, A., Betancourt, M., & Gelman, A. (2019).

@@ -63,20 +63,17 @@
 #' the MCMC output. Valid names include `"beta"`, `"pi"`, `"z"`, `"mu"`,
 #' `"Sigma"`, `"sigma_sq"`, `"x"`, and `"delta"`.
 #'
-#' @returns Posterior samples are returned a coda `mcmc` object, unless `nchains > 1`, in which case the posterior samples are returend as a coda `mcmc.list` object. If `WAIC = TRUE`, a named list is returned containing the posterior samples and the WAIC value.
+#' @returns Posterior samples are returned a coda `mcmc` object, unless `nchains > 1`, in which case the posterior samples are returned as a coda `mcmc.list` object. If `WAIC = TRUE`, a named list is returned containing the posterior samples and the WAIC value.
 #' @examples
-#' \dontrun{
-#' x <- matrix(rnorm(10*2), ncol = 2)
-#'
+#' \donttest{
 #' # Fit the unequal unrestricted model with default settings
-#' dis_matrix <- dist(x)
-#' mcmc_samples <- run_dpcd("UU", dis_matrix, p = 2, niter = 10000, nburn = 2000)
+#' mcmc_samples <- run_dpcd(dis_mat_example, "UU", p = 2, niter = 10000, nburn = 2000)
 #' summary(mcmc_samples)
 #'
 #' # Fit the equal spherical model with custom hyperparameters and initial values
 #' custom_hyper_params <- list(alpha_tau = 0.01, beta_tau = 0.01)
 #' custom_init_params <- list(sigma_sq = 0.5)
-#' mcmc_samples_es <- run_dpcd("ES", dis_matrix, p = 2,
+#' mcmc_samples_es <- run_dpcd(dis_mat_example, "ES", p = 2,
 #'                             hyper_params = custom_hyper_params,
 #'                             init_params = custom_init_params,
 #'                             niter = 10000, nburn = 2000, WAIC = TRUE)

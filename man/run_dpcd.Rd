@@ -48,7 +48,7 @@ run_dpcd(
 \item{...}{Additional arguments passed to \code{\link[nimble:nimbleMCMC]{nimble::nimbleMCMC()}} from the \code{nimble} package.}
 }
 \value{
-Posterior samples are returned a coda \code{mcmc} object, unless \code{nchains > 1}, in which case the posterior samples are returend as a coda \code{mcmc.list} object. If \code{WAIC = TRUE}, a named list is returned containing the posterior samples and the WAIC value.
+Posterior samples are returned a coda \code{mcmc} object, unless \code{nchains > 1}, in which case the posterior samples are returned as a coda \code{mcmc.list} object. If \code{WAIC = TRUE}, a named list is returned containing the posterior samples and the WAIC value.
 }
 \description{
 This function fits an infinite mixture model to dissimilarity data using a Dirichlet Process prior. The model is constructed and MCMC sampling is performed using the \href{https://r-nimble.org/}{\code{nimble}} package. Currently, there are six different models available.
@@ -108,18 +108,15 @@ the MCMC output. Valid names include \code{"beta"}, \code{"pi"}, \code{"z"}, \co
 \code{"Sigma"}, \code{"sigma_sq"}, \code{"x"}, and \code{"delta"}.
 }
 \examples{
-\dontrun{
-x <- matrix(rnorm(10*2), ncol = 2)
-
+\donttest{
 # Fit the unequal unrestricted model with default settings
-dis_matrix <- dist(x)
-mcmc_samples <- run_dpcd("UU", dis_matrix, p = 2, niter = 10000, nburn = 2000)
+mcmc_samples <- run_dpcd(dis_mat_example, "UU", p = 2, niter = 10000, nburn = 2000)
 summary(mcmc_samples)
 
 # Fit the equal spherical model with custom hyperparameters and initial values
 custom_hyper_params <- list(alpha_tau = 0.01, beta_tau = 0.01)
 custom_init_params <- list(sigma_sq = 0.5)
-mcmc_samples_es <- run_dpcd("ES", dis_matrix, p = 2,
+mcmc_samples_es <- run_dpcd(dis_mat_example, "ES", p = 2,
                             hyper_params = custom_hyper_params,
                             init_params = custom_init_params,
                             niter = 10000, nburn = 2000, WAIC = TRUE)
