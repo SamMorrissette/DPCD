@@ -13,7 +13,7 @@ post_predictive(
 )
 }
 \arguments{
-\item{mcmc_samples}{An object of class \code{mcmc} or \code{mcmc.list} containing posterior samples from a DPCD model fit using \code{\link[=run_dpcd]{run_dpcd()}}. Both the latent positions \code{x} and the error variance \code{sigma_sq} must be monitored in \code{mcmc_samples}.}
+\item{mcmc_samples}{An object of class \code{mcmc} or \code{mcmc.list} containing posterior samples from a DPCD model fit using \code{\link[=run_dpcd]{run_dpcd()}}. Both the latent positions \code{x} and the error variance \code{sigma_sq} must be included in \code{mcmc_samples}.}
 
 \item{dis_matrix}{A distance structure such as that returned by \link[stats:dist]{stats::dist} or a full symmetric matrix containing the dissimilarities.}
 

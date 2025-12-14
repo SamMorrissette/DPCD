@@ -11,7 +11,7 @@ plot_objects(mcmc_samples, target_matrix, show_clusters = TRUE, ...)
 
 \item{target_matrix}{A matrix used as the target for aligning the posterior latent coordinates (\code{x}) via a Procrustes transformation.}
 
-\item{show_clusters}{Logical argument indicating whether to colour points by their cluster membership. If \code{TRUE}, then \code{z} must be monitored in \code{mcmc_samples}.}
+\item{show_clusters}{Logical argument indicating whether to colour points by their cluster membership. If \code{TRUE}, then \code{z} must be included in \code{mcmc_samples}.}
 
 \item{...}{Additional arguments to be passed to \code{plot()} (2 dimensions) or \code{pairs()} (higher dimensions).}
 }

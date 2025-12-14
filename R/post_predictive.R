@@ -2,7 +2,7 @@
 #'
 #' This function simulates dissimilarities from the posterior predictive distribution of a specified DPCD model and optionally plots the density of the simulated dissimilarities against the observed dissimilarities.
 #'
-#' @param mcmc_samples An object of class `mcmc` or `mcmc.list` containing posterior samples from a DPCD model fit using [run_dpcd()]. Both the latent positions `x` and the error variance `sigma_sq` must be monitored in `mcmc_samples`.
+#' @param mcmc_samples An object of class `mcmc` or `mcmc.list` containing posterior samples from a DPCD model fit using [run_dpcd()]. Both the latent positions `x` and the error variance `sigma_sq` must be included in `mcmc_samples`.
 #' @param nsim Number of datasets to simulate from the posterior predictive distribution.
 #' @inheritParams prior_predictive
 #' @details A posterior predictive check is used to assess if datasets drawn from the posterior predictive distribution are consistent with the observed data. Posterior predictive checks differ from prior predictive checks in that they incorporate information from the observed data. If the model fits the data well, the observed dissimilarities should look similar to dissimilarities simulated from the posterior predictive distribution.

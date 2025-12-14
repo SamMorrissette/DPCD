@@ -34,10 +34,10 @@ configure_model_common <- function(d_obs,
   b_0 <- e_sigma_sq * (a_0 - 1)
   lambda <- d_W^2 / d_B^2
   common_hyper_params <- list(alpha_0 = 1,
-                       a_0 = a_0,
-                       b_0 = b_0,
-                       lambda = lambda,
-                       mu_0 = rep(0, p))
+                              a_0 = a_0,
+                              b_0 = b_0,
+                              lambda = lambda,
+                              mu_0 = rep(0, p))
 
   default_hyper_params <- modifyList(common_hyper_params, model_hyper_params)
 
