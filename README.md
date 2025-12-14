@@ -55,10 +55,10 @@ Posterior predictive checks can be performed using the
 that, by default, the input dissimilarities are scaled so that the
 maximum value is 1. This can be toggled off with `scale = TRUE`, but it
 is recommended to provide different hyperparameters (using the
-`hyperparams` argument) if scaling is disabled.
+`hyper_params` argument) if scaling is disabled.
 
 ``` r
-ppc <- post_predictive(dis_mat, fit$samples)
+ppc <- post_predictive(fit$samples, dis_mat)
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
